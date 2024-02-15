@@ -177,6 +177,7 @@ ssize_t razer_attr_write_side_mode_static(IOUSBDeviceInterface **usb_dev, const 
         switch(product) {
             case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
             case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+            case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
                 report = razer_chroma_mouse_extended_matrix_effect_static(VARSTORE, side, (struct razer_rgb*)&buf[0]);
                 break;
 
@@ -247,6 +248,7 @@ ssize_t razer_attr_write_side_mode_static_no_store(IOUSBDeviceInterface **usb_de
         switch(product) {
             case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
             case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+            case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
                 report = razer_chroma_mouse_extended_matrix_effect_static(NOSTORE, side, (struct razer_rgb*)&buf[0]);
                 break;
 
@@ -316,6 +318,7 @@ ssize_t razer_attr_write_side_mode_spectrum(IOUSBDeviceInterface **usb_dev, cons
     switch(product) {
         case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
         case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+        case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
             report = razer_chroma_mouse_extended_matrix_effect_spectrum(VARSTORE, side);
             break;
 
@@ -640,6 +643,7 @@ ssize_t razer_attr_write_logo_mode_static(IOUSBDeviceInterface **usb_dev, const 
         switch(product) {
         case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
         case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+        case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
             report = razer_chroma_mouse_extended_matrix_effect_static(VARSTORE, LOGO_LED, (struct razer_rgb*)&buf[0]);
             break;
 
@@ -716,6 +720,7 @@ ssize_t razer_attr_write_scroll_mode_static(IOUSBDeviceInterface **usb_dev, cons
         switch(product) {
             case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
             case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+            case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
                 report = razer_chroma_mouse_extended_matrix_effect_static(VARSTORE, LOGO_LED, (struct razer_rgb*)&buf[0]);
                 break;
 
@@ -814,6 +819,7 @@ ssize_t razer_attr_write_logo_mode_static_no_store(IOUSBDeviceInterface **usb_de
         switch(product) {
         case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
         case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+        case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
             report = razer_chroma_mouse_extended_matrix_effect_static(NOSTORE, LOGO_LED, (struct razer_rgb*)&buf[0]);
             break;
 
@@ -893,6 +899,7 @@ ssize_t razer_attr_write_scroll_mode_static_no_store(IOUSBDeviceInterface **usb_
         switch(product) {
             case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
             case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+            case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
                 report = razer_chroma_mouse_extended_matrix_effect_static(NOSTORE, SCROLL_WHEEL_LED, (struct razer_rgb*)&buf[0]);
                 break;
 
@@ -985,6 +992,7 @@ ssize_t razer_attr_write_logo_mode_spectrum(IOUSBDeviceInterface **usb_dev, cons
     switch(product) {
     case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
     case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+    case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
         report = razer_chroma_mouse_extended_matrix_effect_spectrum(VARSTORE, LOGO_LED);
         break;
 
@@ -1050,6 +1058,7 @@ ssize_t razer_attr_write_scroll_mode_spectrum(IOUSBDeviceInterface **usb_dev, co
     switch(product) {
         case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
         case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+        case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
             report = razer_chroma_mouse_extended_matrix_effect_spectrum(VARSTORE, SCROLL_WHEEL_LED);
             break;
 
@@ -1134,6 +1143,7 @@ ssize_t razer_attr_write_logo_mode_breath(IOUSBDeviceInterface **usb_dev, const 
     switch(product) {
     case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
     case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+    case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
         switch(count) {
         case 3: // Single colour mode
             report = razer_chroma_mouse_extended_matrix_effect_breathing_single(VARSTORE, LOGO_LED, (struct razer_rgb*)&buf[0]);
@@ -1226,6 +1236,7 @@ ssize_t razer_attr_write_scroll_mode_breath(IOUSBDeviceInterface **usb_dev, cons
     switch(product) {
         case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
         case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+        case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
             switch(count) {
                 case 3: // Single colour mode
                     report = razer_chroma_mouse_extended_matrix_effect_breathing_single(VARSTORE, SCROLL_WHEEL_LED, (struct razer_rgb*)&buf[0]);
@@ -1336,6 +1347,7 @@ ssize_t razer_attr_write_logo_mode_none(IOUSBDeviceInterface **usb_dev, const ch
     switch(product) {
     case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
     case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+    case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
         report = razer_chroma_mouse_extended_matrix_effect_none(VARSTORE, LOGO_LED);
         break;
 
@@ -1405,6 +1417,7 @@ ssize_t razer_attr_write_scroll_mode_none(IOUSBDeviceInterface **usb_dev, const 
     switch(product) {
         case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
         case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+        case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
             report = razer_chroma_mouse_extended_matrix_effect_none(VARSTORE, SCROLL_WHEEL_LED);
             break;
 
@@ -1542,6 +1555,7 @@ ssize_t razer_attr_write_logo_mode_reactive(IOUSBDeviceInterface **usb_dev, cons
         switch(product) {
         case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
         case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
+        case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
             report = razer_chroma_mouse_extended_matrix_effect_reactive(VARSTORE, LOGO_LED, speed, (struct razer_rgb*)&buf[1]);
             break;
 
@@ -1609,6 +1623,7 @@ ssize_t razer_attr_write_scroll_mode_reactive(IOUSBDeviceInterface **usb_dev, co
         switch(product) {
         case USB_DEVICE_ID_RAZER_NAGA_HEX_V2:
         case USB_DEVICE_ID_RAZER_NAGA_CHROMA:
+        case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
             report = razer_chroma_mouse_extended_matrix_effect_reactive(VARSTORE, SCROLL_WHEEL_LED, speed, (struct razer_rgb*)&buf[1]);
             break;
 
@@ -1734,6 +1749,7 @@ ssize_t razer_attr_read_get_battery(IOUSBDeviceInterface **usb_dev, char *buf)
         case USB_DEVICE_ID_RAZER_MAMBA_WIRELESS_WIRED:
         case USB_DEVICE_ID_RAZER_DEATHADDER_V2_PRO_WIRED:
         case USB_DEVICE_ID_RAZER_DEATHADDER_V2_PRO_WIRELESS:
+        case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
             report.transaction_id.id = 0x3f;
             break;
         case USB_DEVICE_ID_RAZER_BASILISK_ULTIMATE_RECEIVER:
@@ -1777,6 +1793,7 @@ ssize_t razer_attr_read_is_charging(IOUSBDeviceInterface **usb_dev, char *buf)
         case USB_DEVICE_ID_RAZER_MAMBA_WIRELESS_WIRED:
         case USB_DEVICE_ID_RAZER_DEATHADDER_V2_PRO_WIRED:
         case USB_DEVICE_ID_RAZER_DEATHADDER_V2_PRO_WIRELESS:
+        case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
             report.transaction_id.id = 0x3f;
             break;
         case USB_DEVICE_ID_RAZER_BASILISK_ULTIMATE_RECEIVER:
@@ -1835,6 +1852,7 @@ ushort razer_attr_read_poll_rate(IOUSBDeviceInterface **usb_dev)
         case USB_DEVICE_ID_RAZER_DEATHADDER_V2_PRO_WIRED:
         case USB_DEVICE_ID_RAZER_DEATHADDER_V2_PRO_WIRELESS:
         case USB_DEVICE_ID_RAZER_DEATHADDER_V2_MINI:
+        case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
             report.transaction_id.id = 0x3f;
             break;
 
@@ -1930,6 +1948,7 @@ void razer_attr_write_poll_rate(IOUSBDeviceInterface **usb_dev, ushort polling_r
         case USB_DEVICE_ID_RAZER_DEATHADDER_V2_PRO_WIRED:
         case USB_DEVICE_ID_RAZER_DEATHADDER_V2_PRO_WIRELESS:
         case USB_DEVICE_ID_RAZER_DEATHADDER_V2_MINI:
+        case USB_DEVICE_ID_RAZER_NAGA_EPIC_CHROMA:
             report.transaction_id.id = 0x3f;
             break;
 

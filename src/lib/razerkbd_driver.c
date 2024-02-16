@@ -571,7 +571,7 @@ ssize_t razer_attr_write_mode_reactive(IOUSBDeviceInterface **usb_dev, const cha
         case USB_DEVICE_ID_RAZER_HUNTSMAN_V2_TKL:
         case USB_DEVICE_ID_RAZER_BLACKWIDOW_V3_MINI_WIRED:
         case USB_DEVICE_ID_RAZER_BLACKWIDOW_V4_75:
-    case USB_DEVICE_ID_RAZER_BLACKWIDOW_V4_PRO:
+        case USB_DEVICE_ID_RAZER_BLACKWIDOW_V4_PRO:
             report = razer_chroma_extended_matrix_effect_reactive(VARSTORE, BACKLIGHT_LED, speed, (struct razer_rgb *)&buf[1]);
             report.transaction_id.id = 0x1F;
             break;
@@ -1720,7 +1720,7 @@ ssize_t razer_attr_write_matrix_custom_frame(IOUSBDeviceInterface **usb_dev, con
         case USB_DEVICE_ID_RAZER_HUNTSMAN_V2_TKL:
         case USB_DEVICE_ID_RAZER_BLACKWIDOW_V3_MINI_WIRED:
         case USB_DEVICE_ID_RAZER_BLACKWIDOW_V4_75:
-    case USB_DEVICE_ID_RAZER_BLACKWIDOW_V4_PRO:
+        case USB_DEVICE_ID_RAZER_BLACKWIDOW_V4_PRO:
             report = razer_chroma_extended_matrix_set_custom_frame(row_id, start_col, stop_col, (unsigned char *)&buf[offset]);
             report.transaction_id.id = 0x1F;
             break;

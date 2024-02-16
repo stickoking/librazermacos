@@ -69,7 +69,6 @@ bool is_keyboard(IOUSBDeviceInterface **usb_dev)
 	case USB_DEVICE_ID_RAZER_BLACKWIDOW_V3_MINI_WIRELESS:
 	case USB_DEVICE_ID_RAZER_BLACKWIDOW_V4_75:
     case USB_DEVICE_ID_RAZER_BLACKWIDOW_V4_PRO:
-
 		return true;
 	}
 

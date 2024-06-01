@@ -127,6 +127,7 @@ ssize_t razer_attr_write_mode_macro_effect(IOUSBDeviceInterface **usb_dev, const
         report.transaction_id.id = 0x3F;
         break;
 
+    case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
     case USB_DEVICE_ID_RAZER_TARTARUS_V2:
     case USB_DEVICE_ID_RAZER_BLACKWIDOW_ELITE:
     case USB_DEVICE_ID_RAZER_HUNTSMAN_V2_ANALOG:
@@ -350,6 +351,7 @@ ssize_t razer_attr_write_mode_none(IOUSBDeviceInterface **usb_dev, const char *b
         report = razer_chroma_extended_matrix_effect_none(VARSTORE, BACKLIGHT_LED);
         break;
 
+    case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
     case USB_DEVICE_ID_RAZER_TARTARUS_V2:
     case USB_DEVICE_ID_RAZER_BLACKWIDOW_ELITE:
     case USB_DEVICE_ID_RAZER_CYNOSA_V2:
@@ -430,6 +432,7 @@ ssize_t razer_attr_write_mode_wave(IOUSBDeviceInterface **usb_dev, const char *b
         report.transaction_id.id = 0x3F; // TODO move to a usb_device variable
         break;
 
+    case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
     case USB_DEVICE_ID_RAZER_TARTARUS_V2:
     case USB_DEVICE_ID_RAZER_BLACKWIDOW_ELITE:
     case USB_DEVICE_ID_RAZER_CYNOSA_V2:
@@ -514,6 +517,7 @@ ssize_t razer_attr_write_mode_spectrum(IOUSBDeviceInterface **usb_dev, const cha
         report = razer_chroma_standard_set_led_effect(VARSTORE, BACKLIGHT_LED, LED_SPECTRUM_CYCLING);
         break;
 
+    case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
     case USB_DEVICE_ID_RAZER_TARTARUS_V2:
         report = razer_chroma_extended_matrix_effect_spectrum(VARSTORE, BACKLIGHT_LED);
         report.transaction_id.id = 0x1F; // TODO move to a usb_device variable
@@ -566,6 +570,7 @@ ssize_t razer_attr_write_mode_reactive(IOUSBDeviceInterface **usb_dev, const cha
             report = razer_chroma_extended_matrix_effect_reactive(VARSTORE, BACKLIGHT_LED, speed, (struct razer_rgb *)&buf[1]);
             break;
 
+        case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
         case USB_DEVICE_ID_RAZER_TARTARUS_V2:
         case USB_DEVICE_ID_RAZER_BLACKWIDOW_ELITE:
         case USB_DEVICE_ID_RAZER_CYNOSA_V2:
@@ -619,6 +624,7 @@ ssize_t razer_attr_write_mode_static(IOUSBDeviceInterface **usb_dev, const char 
     switch (product)
     {
 
+    case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
     case USB_DEVICE_ID_RAZER_TARTARUS_V2:
         report = razer_chroma_extended_matrix_effect_static(VARSTORE, BACKLIGHT_LED, (struct razer_rgb *)&buf[0]);
         razer_send_payload(usb_dev, &report);
@@ -793,6 +799,7 @@ ssize_t razer_attr_write_mode_static_no_store(IOUSBDeviceInterface **usb_dev, co
     switch (product)
     {
 
+    case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
     case USB_DEVICE_ID_RAZER_TARTARUS_V2:
         report = razer_chroma_extended_matrix_effect_static(NOSTORE, BACKLIGHT_LED, (struct razer_rgb *)&buf[0]);
         razer_send_payload(usb_dev, &report);
@@ -1066,6 +1073,7 @@ ssize_t razer_attr_write_mode_starlight(IOUSBDeviceInterface **usb_dev, const ch
         razer_send_payload(usb_dev, &report);
         break;
 
+    case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
     case USB_DEVICE_ID_RAZER_TARTARUS_V2:
         if (count == 7)
         {
@@ -1152,6 +1160,7 @@ ssize_t razer_attr_write_mode_breath(IOUSBDeviceInterface **usb_dev, const char 
         }
         break;
 
+    case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
     case USB_DEVICE_ID_RAZER_TARTARUS_V2:
         switch (count)
         {
@@ -1424,6 +1433,7 @@ ssize_t razer_attr_write_mode_custom(IOUSBDeviceInterface **usb_dev, const char 
         report = razer_chroma_extended_matrix_effect_custom_frame();
         break;
 
+    case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
     case USB_DEVICE_ID_RAZER_TARTARUS_V2:
     case USB_DEVICE_ID_RAZER_BLACKWIDOW_ELITE:
     case USB_DEVICE_ID_RAZER_CYNOSA_V2:
@@ -1486,6 +1496,7 @@ ssize_t razer_attr_write_set_brightness(IOUSBDeviceInterface **usb_dev, ushort b
     switch (product)
     {
 
+    case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
     case USB_DEVICE_ID_RAZER_TARTARUS_V2:
         report = razer_chroma_extended_matrix_brightness(VARSTORE, ZERO_LED, brightness);
         report.transaction_id.id = 0x1F;
@@ -1571,6 +1582,7 @@ ushort razer_attr_read_set_brightness(IOUSBDeviceInterface **usb_dev)
     switch (product)
     {
 
+    case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
     case USB_DEVICE_ID_RAZER_TARTARUS_V2:
         report = razer_chroma_extended_matrix_get_brightness(VARSTORE, ZERO_LED);
         report.transaction_id.id = 0x1F;
@@ -1723,6 +1735,7 @@ ssize_t razer_attr_write_matrix_custom_frame(IOUSBDeviceInterface **usb_dev, con
             report = razer_chroma_extended_matrix_set_custom_frame(row_id, start_col, stop_col, (unsigned char *)&buf[offset]);
             break;
 
+        case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
         case USB_DEVICE_ID_RAZER_TARTARUS_V2:
         case USB_DEVICE_ID_RAZER_BLACKWIDOW_ELITE:
         case USB_DEVICE_ID_RAZER_CYNOSA_V2:
@@ -1802,6 +1815,7 @@ static int razer_get_report(IOUSBDeviceInterface **usb_dev, struct razer_report 
     {
     case USB_DEVICE_ID_RAZER_ANANSI:
     case USB_DEVICE_ID_RAZER_HUNTSMAN_TE:
+    case USB_DEVICE_ID_RAZER_TARTARUS_PRO:
     case USB_DEVICE_ID_RAZER_ORNATA_CHROMA_V2:
     case USB_DEVICE_ID_RAZER_BLACKWIDOW_V3_TK:
     case USB_DEVICE_ID_RAZER_BLACKWIDOW_V3_PRO_WIRED:

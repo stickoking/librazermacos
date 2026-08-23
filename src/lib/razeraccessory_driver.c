@@ -37,6 +37,7 @@ static int razer_get_report(IOUSBDeviceInterface **usb_dev, struct razer_report 
 
     switch (product) {
         case USB_DEVICE_ID_RAZER_MOUSE_DOCK:
+        case USB_DEVICE_ID_RAZER_MOUSE_DOCK_PRO:
         case USB_DEVICE_ID_RAZER_THUNDERBOLT_4_DOCK_CHROMA:
             return razer_get_usb_response(usb_dev, 0x00, request_report, 0x00, response_report, RAZER_NEW_DEVICE_WAIT_MIN_US);
             break;
@@ -102,8 +103,14 @@ ssize_t razer_accessory_attr_write_mode_spectrum(IOUSBDeviceInterface **usb_dev,
         case USB_DEVICE_ID_RAZER_NOMMO_PRO:
         case USB_DEVICE_ID_RAZER_NOMMO_CHROMA:
         case USB_DEVICE_ID_RAZER_MOUSE_DOCK:
+        case USB_DEVICE_ID_RAZER_CHARGING_PAD_CHROMA:
             report = razer_chroma_extended_matrix_effect_spectrum(VARSTORE, ZERO_LED);
             report.transaction_id.id = 0x3F;
+            break;
+
+        case USB_DEVICE_ID_RAZER_MOUSE_DOCK_PRO:
+            report = razer_chroma_extended_matrix_effect_spectrum(VARSTORE, ZERO_LED);
+            report.transaction_id.id = 0xFF;
             break;
 
         case USB_DEVICE_ID_RAZER_MOUSE_BUNGEE_V3_CHROMA:
@@ -145,8 +152,14 @@ ssize_t razer_accessory_attr_write_mode_none(IOUSBDeviceInterface **usb_dev, con
         case USB_DEVICE_ID_RAZER_NOMMO_PRO:
         case USB_DEVICE_ID_RAZER_NOMMO_CHROMA:
         case USB_DEVICE_ID_RAZER_MOUSE_DOCK:
+        case USB_DEVICE_ID_RAZER_CHARGING_PAD_CHROMA:
             report = razer_chroma_extended_matrix_effect_none(VARSTORE, ZERO_LED);
             report.transaction_id.id = 0x3F;
+            break;
+
+        case USB_DEVICE_ID_RAZER_MOUSE_DOCK_PRO:
+            report = razer_chroma_extended_matrix_effect_none(VARSTORE, ZERO_LED);
+            report.transaction_id.id = 0xFF;
             break;
 
         case USB_DEVICE_ID_RAZER_MOUSE_BUNGEE_V3_CHROMA:
@@ -214,7 +227,13 @@ ssize_t razer_accessory_attr_write_mode_custom(IOUSBDeviceInterface **usb_dev, c
         case USB_DEVICE_ID_RAZER_NOMMO_PRO:
         case USB_DEVICE_ID_RAZER_NOMMO_CHROMA:
         case USB_DEVICE_ID_RAZER_MOUSE_DOCK:
+        case USB_DEVICE_ID_RAZER_CHARGING_PAD_CHROMA:
             report = razer_chroma_extended_matrix_effect_custom_frame();
+            break;
+
+        case USB_DEVICE_ID_RAZER_MOUSE_DOCK_PRO:
+            report = razer_chroma_extended_matrix_effect_custom_frame();
+            report.transaction_id.id = 0xFF;
             break;
 
         case USB_DEVICE_ID_RAZER_MOUSE_BUNGEE_V3_CHROMA:
@@ -259,6 +278,25 @@ ssize_t razer_accessory_attr_write_mode_static(IOUSBDeviceInterface **usb_dev, c
             case USB_DEVICE_ID_RAZER_MOUSE_DOCK:
                 report = razer_chroma_extended_matrix_effect_static(VARSTORE, ZERO_LED, (struct razer_rgb*) & buf[0]);
                 report.transaction_id.id = 0x3F;
+                break;
+
+            case USB_DEVICE_ID_RAZER_CHARGING_PAD_CHROMA:
+                report = razer_chroma_extended_matrix_effect_static(NOSTORE, ZERO_LED, (struct razer_rgb *)&buf[0]);
+                break;
+
+            case USB_DEVICE_ID_RAZER_MOUSE_DOCK_PRO:
+                report = razer_chroma_extended_matrix_effect_static(VARSTORE, ZERO_LED, (struct razer_rgb *)&buf[0]);
+                report.transaction_id.id = 0xFF;
+                razer_send_payload(usb_dev, &report);
+
+                /* Mode switcher required between static writes (same as OpenRazer). */
+                report = get_razer_report(0x0f, 0x02, 0x06);
+                report.arguments[2] = 0x08;
+                report.transaction_id.id = 0x1F;
+                razer_send_payload(usb_dev, &report);
+
+                report = razer_chroma_extended_matrix_effect_static(VARSTORE, ZERO_LED, (struct razer_rgb *)&buf[0]);
+                report.transaction_id.id = 0xFF;
                 break;
 
             case USB_DEVICE_ID_RAZER_MOUSE_BUNGEE_V3_CHROMA:
@@ -306,8 +344,16 @@ ssize_t razer_accessory_attr_write_mode_wave(IOUSBDeviceInterface **usb_dev, con
         case USB_DEVICE_ID_RAZER_NOMMO_PRO:
         case USB_DEVICE_ID_RAZER_NOMMO_CHROMA:
         case USB_DEVICE_ID_RAZER_MOUSE_DOCK:
+        case USB_DEVICE_ID_RAZER_CHARGING_PAD_CHROMA:
             report = razer_chroma_extended_matrix_effect_wave(VARSTORE, ZERO_LED, direction, speed);
             report.transaction_id.id = 0x3F;
+            break;
+
+        case USB_DEVICE_ID_RAZER_MOUSE_DOCK_PRO:
+            // Direction values are flipped compared to other devices
+            direction ^= ((1<<0) | (1<<1));
+            report = razer_chroma_extended_matrix_effect_wave(VARSTORE, ZERO_LED, direction, speed);
+            report.transaction_id.id = 0xFF;
             break;
 
         case USB_DEVICE_ID_RAZER_MOUSE_BUNGEE_V3_CHROMA:
@@ -350,6 +396,7 @@ ssize_t razer_accessory_attr_write_mode_breath(IOUSBDeviceInterface **usb_dev, c
         case USB_DEVICE_ID_RAZER_NOMMO_PRO:
         case USB_DEVICE_ID_RAZER_NOMMO_CHROMA:
         case USB_DEVICE_ID_RAZER_MOUSE_DOCK:
+        case USB_DEVICE_ID_RAZER_CHARGING_PAD_CHROMA:
             switch(count) {
                 case 3: // Single colour mode
                     report = razer_chroma_extended_matrix_effect_breathing_single(VARSTORE, ZERO_LED, (struct razer_rgb *)&buf[0]);
@@ -364,6 +411,25 @@ ssize_t razer_accessory_attr_write_mode_breath(IOUSBDeviceInterface **usb_dev, c
                 default: // "Random" colour mode
                     report = razer_chroma_extended_matrix_effect_breathing_random(VARSTORE, ZERO_LED);
                     report.transaction_id.id = 0x3F;
+                    break;
+            }
+            break;
+
+        case USB_DEVICE_ID_RAZER_MOUSE_DOCK_PRO:
+            switch(count) {
+                case 3: // Single colour mode
+                    report = razer_chroma_extended_matrix_effect_breathing_single(VARSTORE, ZERO_LED, (struct razer_rgb *)&buf[0]);
+                    report.transaction_id.id = 0xFF;
+                    break;
+
+                case 6: // Dual colour mode
+                    report = razer_chroma_extended_matrix_effect_breathing_dual(VARSTORE, ZERO_LED, (struct razer_rgb *)&buf[0], (struct razer_rgb *)&buf[3]);
+                    report.transaction_id.id = 0xFF;
+                    break;
+
+                default: // "Random" colour mode
+                    report = razer_chroma_extended_matrix_effect_breathing_random(VARSTORE, ZERO_LED);
+                    report.transaction_id.id = 0xFF;
                     break;
             }
             break;
@@ -487,11 +553,12 @@ ssize_t razer_accessory_attr_read_device_mode(IOUSBDeviceInterface **usb_dev, ch
  *
  * Sets the brightness to the ASCII number written to this file.
  */
-ssize_t razer_accessory_attr_write_set_brightness(IOUSBDeviceInterface **usb_dev, ushort brightness, size_t count)
+ssize_t razer_accessory_attr_write_set_brightness(IOUSBDeviceInterface **usb_dev, ushort brightness, int count)
 {
+
+    struct razer_report report = {0};
     UInt16 product = -1;
     (*usb_dev)->GetDeviceProduct(usb_dev, &product);
-    struct razer_report report = {0};
 
     switch (product) {
         case USB_DEVICE_ID_RAZER_MOUSE_BUNGEE_V3_CHROMA:
@@ -510,7 +577,13 @@ ssize_t razer_accessory_attr_write_set_brightness(IOUSBDeviceInterface **usb_dev
         case USB_DEVICE_ID_RAZER_NOMMO_PRO:
         case USB_DEVICE_ID_RAZER_NOMMO_CHROMA:
         case USB_DEVICE_ID_RAZER_MOUSE_DOCK:  // In openrazer this is bundled with saving brightness to usb_dev for MOUSE_DOCK
+        case USB_DEVICE_ID_RAZER_CHARGING_PAD_CHROMA:
             report = razer_chroma_extended_matrix_brightness(VARSTORE, ZERO_LED, brightness);
+            break;
+
+        case USB_DEVICE_ID_RAZER_MOUSE_DOCK_PRO:
+            report = razer_chroma_extended_matrix_brightness(VARSTORE, ZERO_LED, brightness);
+            report.transaction_id.id = 0xFF;
             break;
 
         default:
@@ -530,23 +603,41 @@ ssize_t razer_accessory_attr_write_set_brightness(IOUSBDeviceInterface **usb_dev
  */
 ushort razer_accessory_attr_read_set_brightness(IOUSBDeviceInterface **usb_dev)
 {
+    bool is_matrix_brightness = false;
+    unsigned char brightness = 0;
+    struct razer_report report = {0};
+    struct razer_report response = {0};
+
     UInt16 product = -1;
     (*usb_dev)->GetDeviceProduct(usb_dev, &product);
-    struct razer_report report = razer_chroma_standard_get_led_brightness(VARSTORE, BACKLIGHT_LED);
-    struct razer_report response = {0};
-    unsigned char brightness = 0;
 
     switch (product) {
         case USB_DEVICE_ID_RAZER_MOUSE_BUNGEE_V3_CHROMA:
         case USB_DEVICE_ID_RAZER_BASE_STATION_V2_CHROMA:
         case USB_DEVICE_ID_RAZER_THUNDERBOLT_4_DOCK_CHROMA:
         case USB_DEVICE_ID_RAZER_MOUSE_DOCK:
-            break;
+        case USB_DEVICE_ID_RAZER_CHARGING_PAD_CHROMA:
+          report = razer_chroma_extended_matrix_get_brightness(VARSTORE, ZERO_LED);
+          report.transaction_id.id = 0x1F;
+          is_matrix_brightness = true;
+          break;
+
+        case USB_DEVICE_ID_RAZER_MOUSE_DOCK_PRO:
+          report = razer_chroma_extended_matrix_get_brightness(VARSTORE, ZERO_LED);
+          report.transaction_id.id = 0xFF;
+          is_matrix_brightness = true;
+          break;
 
         default:
-            response = razer_send_payload(usb_dev, &report);
-            brightness = response.arguments[2];
+            report = razer_chroma_standard_get_led_brightness(VARSTORE, BACKLIGHT_LED);
             break;
+    }
+
+    response = razer_send_payload(usb_dev, &report);
+    brightness = response.arguments[2];
+
+    if(is_matrix_brightness) {
+        brightness = round(brightness / 2.55);
     }
 
     return brightness;
